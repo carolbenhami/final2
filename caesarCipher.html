@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Caesar Cipher Encryption/Decryption</h1>
+    <label>Enter text to encrypted/decrypted:</label><br>
+    <input type= "text" id= "inputText" placeholder= "Enter text to encrypt/decrypt"><br><br>
+
+    <label>Shift:</label><br>
+    <input type="number" id="shiftNumber" min="0" placeholder="Select shift amount"><br><br>
+
+    <label>Direction of Shift:</label><br>
+        <select id="direction">
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+        </select><br><br>
+
+    <label>Encrypt of Decrypt?</label><br>
+    <select id="functionality">
+        <option value="encrypt">Encrypt</option>
+        <option value="decrypt">Decrypt</option>
+    </select><br><br>
+
+    <button onclick="submission()">Submit</button>
+
+    <h2>Output:<h2><br>
+    <div class="result" id="result"></div>
+
+    <script>
+        let input = document.getElementById("inputText").value;
+        let shift = parseInt(document.getElementById("shiftNumber").value);
+        let direction = document.getElementById("direction").value
+        function submission(){
+            if (inputText == ""){
+                window.alert("Text is required")
+                return
+            }
+            let resultText;
+            if (direction === "right") {
+                resultText = encrypt(inputText, shiftAmount);
+            } 
+            else {
+                resultText = decrypt(inputText, shiftAmount);
+            }
+            document.getElementById("result").innerText = "Result: " + resultText;
+
+            function cipher(text, shift) {
+                let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                let result = '';
+
+                for (let i=0; i<text.length; i++) {
+                    let currentCharacter = text[i]
+                    let uppercase = currentCharacter.toUpperCase();
+
+                    if(alphabet.indexOf(uppercase) === -1){
+                        result += currentCharacter; 
+                    }
+                    else{
+                        let newCharacter = shiftedCharacter(uppercase, shift);
+
+                    }
+                }
+                return result;
+            } 
+        }
+
+        function shiftedCharacter (character, shift){
+            let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let currentIndex = alphabet.indexOf(char);
+            let newIndex = (currentIndex + shift) % 26;
+            if (newIndex < 0){
+                newIndex += 26
+            }
+            return alphabet[newIndex]
+        }
+    </script>
+</body>
+</html>
