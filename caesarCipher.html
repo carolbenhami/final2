@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Caesar Cipher Encryption/Decryption</h1>
+    <label>Enter text to encrypted/decrypted:</label><br>
+    <input type= "text" id= "inputText" placeholder= "Enter text to encrypt/decrypt"><br><br>
+
+    <label>Shift:</label><br>
+    <input type="number" id="shiftNumber" min="0" placeholder="Select shift amount"><br><br>
+
+    <label>Direction of Shift:</label><br>
+        <select id="direction">
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+        </select><br><br>
+
+    <label>Encrypt or Decrypt?</label><br>
+    <select id="functionality">
+        <option value="encrypt">Encrypt</option>
+        <option value="decrypt">Decrypt</option>
+    </select><br><br>
+
+    <button onclick="submission()">Submit</button>
+
+    <h2>Output:<h2><br>
+    <div class="result" id="result"></div>
+
+    <script>
+        //Main function taking the text input, shift number, direction, and functionality (encrypt or decrypt) as arguments
+        function caesarCipher(text, shift, direction, functionality) {
+            //Creates a variable storing the alphabet letters in order and a empty string variable to store the final output
+            let alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let result='';
+            //Checks for shift direction. If left, makes the shift negative. If right, keeps shift positive
+            if (direction === 'left') {
+                shift = -shift; 
+            } else {
+                shift = shift; 
+            }
+            
+            //Iteration through all characters on the input string
+            for (let i = 0; i < text.length; i++) {
+                //Sets char to be the current letter being itterated
+                let char = text[i];
+                //Returns true if the character is lowercase and false if it is uppercase
+                let isLower = char === char.toLowerCase();
+                //Creates the new variable converting character to uppercase
+                let charUpper = char.toUpperCase();
+
+                //Checks if the charUpper variable is a letter and part of the alphabet string
+                if (alphabet.indexOf(charUpper) !== -1) {
+                    //Create variable current index and setr it to the index of the letter on the alphabet string
+                    let currentIndex = alphabet.indexOf(charUpper);
+                    //Calculates the new index after the shift
+                    let newIndex = (currentIndex + shift) % 26;
+                    //If the new index is less than 0, adds 26 to make the number a relative positive index
+                    if (newIndex < 0) {
+                        newIndex += 26; 
+                    }
+                    //Gets the new character based on the new index
+                    let newChar = alphabet[newIndex];
+
+                    //Adds the new character to the result based on the capitalization originally used
+                    if (isLower) {
+                        result += newChar.toLowerCase();
+                    } 
+                    else {
+                        result += newChar;
+                    }
+                } 
+                //If the original input has a character that is not a letter, keep is as it is
+                else {
+                    result += char;
+                }
+            }
+            //Returns final string encrypted or decrypted
+            return result;
+        }
+
+        //Creates the function to get specific elements from the html input
+        function submission() {
+            let inputText = document.getElementById('inputText').value;
+            let shiftNumber = parseInt(document.getElementById('shiftNumber').value);
+            let direction = document.getElementById('direction').value;
+            let functionality = document.getElementById('functionality').value;
+
+            //Checks if the input is an empty or if there is no input for the number of shifts
+            if (inputText === '' || isNaN(shiftNumber)) {
+                window.alert('Please enter valid text and shift value.');
+                return;
+            }
+
+            //Makes the result variable the returned string from the caesarCipher function
+            let result = caesarCipher(inputText, shiftNumber, direction, functionality);
+            //Prints the final encrypted/decrypted string to the result div on the html
+            document.getElementById('result').innerText = result;
+        }
+    </script>
+</body>
+</html>
